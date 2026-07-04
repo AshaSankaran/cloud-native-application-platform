@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+
+# Environment files
+.env
+.env.*
+
+# Logs
+*.log
+
+# IDE / VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker volumes / temp data
+postgres-data/

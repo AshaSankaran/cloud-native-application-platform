@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cloud Native Application Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            width: 500px;
+            border-radius: 8px;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        p {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Cloud Native Application Platform</h1>
+
+        <p id="backend">Backend Status: Loading...</p>
+        <p id="database">Database Status: Loading...</p>
+        <p id="version">Version: Loading...</p>
+    </div>
+
+    <script>
+        async function loadData() {
+            const healthResponse = await fetch("/api/health");
+            const healthData = await healthResponse.json();
+
+            document.getElementById("backend").innerText =
+                "Backend Status: " + healthData.status;
+
+            const dbResponse = await fetch("/api/db-status");
+            const dbData = await dbResponse.json();
+
+            document.getElementById("database").innerText =
+                "Database Status: " + dbData.status;
+
+            const versionResponse = await fetch("/api/version");
+            const versionData = await versionResponse.json();
+
+            document.getElementById("version").innerText =
+                "Version: " + versionData.version;
+        }
+
+        loadData();
+    </script>
+
+</body>
+</html>
