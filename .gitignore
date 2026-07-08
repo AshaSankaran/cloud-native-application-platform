@@ -1,20 +1,26 @@
 # Python
 __pycache__/
 *.pyc
+*.pyo
 
-# Environment files
+# Virtual Environment
+venv/
 .env
-.env.*
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
 
 # Logs
 *.log
 
-# IDE / VS Code
-.vscode/
+# Docker
+*.tar
 
-# OS files
-.DS_Store
-Thumbs.db
+# Kubernetes
+*.bak
 
-# Docker volumes / temp data
-postgres-data/
+# Temporary files
+*.tmp

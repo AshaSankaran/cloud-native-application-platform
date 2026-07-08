@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-statefulset
+  namespace: cloud-native-app  
+spec:
+  serviceName: postgres-service 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres-container
+          image: postgres-app:v1
+          imagePullPolicy: Never
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+          ports:
+            - containerPort: 5432
+          envFrom: 
+            - secretRef:
+                name: postgres-secret 
+          volumeMounts:
+            - name: postgres-storage 
+              mountPath: /var/lib/postgresql/data 
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi

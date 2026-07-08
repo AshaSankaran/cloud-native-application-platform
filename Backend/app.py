@@ -6,8 +6,8 @@ app = Flask(__name__)
 
 
 DB_CONFIG = {
-    "host": os.getenv("DB_HOST", "postgres"),
-    "dbname": os.getenv("DB_NAME", "platformdb"),
+    "host": os.getenv("DB_HOST"),
+    "dbname": os.getenv("DB_NAME"),
     "user": os.getenv("DB_USER"),
     "password": os.getenv("DB_PASSWORD"),
     "port": 5432
@@ -22,10 +22,28 @@ def home():
 def health():
     return jsonify({"status": "healthy"})
 
+@app.route("/ready")
+def ready():
+    try:
+        conn = psycopg.connect(**DB_CONFIG)
+        conn.close()
+
+        return jsonify({
+            "status": "ready"
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            "status": "not ready",
+            "error": str(e)
+        }), 503
+
 
 @app.route("/version")
 def version():
-    return jsonify({"version": "1.0"})
+    return jsonify({
+        "version": os.getenv("APP_VERSION")
+    })
 
 
 @app.route("/db-status")
