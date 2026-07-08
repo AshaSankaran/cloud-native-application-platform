@@ -40,7 +40,6 @@ Cloud-Native-Application-Platform/
 ├── database/
 ├── k8s/
 ├── docs/
-├── screenshots/
 ├── docker-compose.yaml
 ├── kind-config.yaml
 └── README.md
