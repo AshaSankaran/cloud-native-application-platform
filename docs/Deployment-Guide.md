@@ -44,9 +44,9 @@ kubectl get nodes
 # Build Docker Images
 
 ```bash
-docker build -t backend-app:v8 ./backend
+docker build -t backend-app:v1 ./backend
 
-docker build -t frontend-app:v3 ./frontend
+docker build -t frontend-app:v1 ./frontend
 ```
 
 ---

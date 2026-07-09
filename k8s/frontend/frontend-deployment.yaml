@@ -15,7 +15,7 @@ spec:
     spec: 
       containers: 
         - name: frontend-container
-          image: frontend-app:v3
+          image: frontend-app:v1
           imagePullPolicy: Never 
           resources:
             requests:

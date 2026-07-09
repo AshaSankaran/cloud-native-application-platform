@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend-container
-          image: backend-app:v8
+          image: backend-app:v1
           imagePullPolicy: Never
           resources:
             requests:
