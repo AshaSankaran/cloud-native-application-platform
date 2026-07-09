@@ -1,18 +1,24 @@
-name: Cloud Native CI/CD Pipeline.yml
+name: Cloud Native CI/CD Pipeline
 on:
   push: 
     branches:
       - main
   workflow_dispatch: 
 jobs:
-  checkout-repo: 
+  build-and-deploy: 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Show current Directory
+      - name: Show Current Directory
         run: pwd 
-      - name: List repository files
+      - name: List Repository Files
         run: ls -la 
-      - name: Show project structure
+      - name: Show Project Structure
         run: tree -L 2 
+      - name: Check Docker Version
+        run: docker --version 
+      - name: Build Backend Docker Image
+        run: docker build -t backend-app:v8 ./backend
+      - name: List Docker Images
+        run: docker images
