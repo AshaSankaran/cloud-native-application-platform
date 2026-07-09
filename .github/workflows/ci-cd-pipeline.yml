@@ -20,5 +20,9 @@ jobs:
         run: docker --version 
       - name: Build Backend Docker Image
         run: docker build -t backend-app:v8 ./backend
-      - name: List Docker Images
+      - name: Verify Backend Docker Image
+        run: docker images 
+      - name: Build Frontend Docker Image 
+        run: docker build -t frontend-app:v3 ./frontend 
+      - name: Verify Frontend Docker Image
         run: docker images
