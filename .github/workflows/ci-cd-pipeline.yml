@@ -19,6 +19,6 @@ jobs:
       - name: Check Docker Version
         run: docker --version 
       - name: Build Backend Docker Image
-        run: docker build -t backend-app:v8 ./backend
+        run: docker build -t backend-app:v8 ./Backend
       - name: List Docker Images
         run: docker images
