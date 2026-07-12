@@ -14,14 +14,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3 
-      - name: Show Current Directory
-        run: pwd 
-      - name: List Repository Files
-        run: ls -la 
-      - name: Show Project Structure
-        run: tree -L 2 
-      - name: Check Docker Version
-        run: docker --version 
       - name: Login to Docker Hub 
         uses: docker/login-action@v3 
         with:
@@ -43,5 +35,3 @@ jobs:
           tags: |
             ashasankaran/cloud-native-frontend:${{env.IMAGE_TAG}}
             ashasankaran/cloud-native-frontend:latest
-      - name: Verify Docker Images
-        run: docker images
