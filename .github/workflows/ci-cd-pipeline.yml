@@ -22,10 +22,14 @@ jobs:
         run: docker --version 
       - name: Build Backend Docker Image
         run: docker build -t ashasankaran/cloud-native-backend:$IMAGE_TAG ./backend
+      - name: Tag Backend Image as latest
+        run: docker tag ashasankaran/cloud-native-backend:$IMAGE_TAG ashasankaran/cloud-native-backend:latest
       - name: Verify Backend Docker Image
         run: docker images 
       - name: Build Frontend Docker Image 
         run: docker build -t ashasankaran/cloud-native-frontend:$IMAGE_TAG ./frontend 
+      - name: Tag Frontend Docker Image
+        run: docker tag ashasankaran/cloud-native-frontend:$IMAGE_TAG ashasankaran/cloud-native-frontend:latest
       - name: Verify Frontend Docker Image
         run: docker images
       - name: Login to Docker Hub 
@@ -35,5 +39,9 @@ jobs:
           password: ${{secrets.DOCKER_TOKEN}}
       - name: Push Backend Image to Docker Hub
         run: docker push ashasankaran/cloud-native-backend:$IMAGE_TAG 
+      - name: Push Backend Latest Image
+        run: docker push ashasankaran/cloud-native-backend:latest
       - name: Push Frontend Image to Docker Hub
         run: docker push ashasankaran/cloud-native-frontend:$IMAGE_TAG
+      - name: Push Frontend Latest Image 
+        run: docker push ashasankaran/cloud-native-frontend:latest
