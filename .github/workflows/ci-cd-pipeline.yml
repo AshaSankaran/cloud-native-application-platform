@@ -39,7 +39,7 @@ jobs:
           context: ./backend
           push: true
           tags: |
-            ashasankaran/cloud-native-backend:${{env.$IMAGE_TAG}}
+            ashasankaran/cloud-native-backend:$IMAGE_TAG
             ashasankaran/cloud-native-backend:latest
       - name: Push Frontend Image to Docker Hub
         run: docker push ashasankaran/cloud-native-frontend:$IMAGE_TAG
