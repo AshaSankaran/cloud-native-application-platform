@@ -16,7 +16,7 @@ spec:
       containers:
         - name: backend-container
           image: ashasankaran/cloud-native-backend:v1
-          imagePullPolicy: ifNotPresent
+          imagePullPolicy: IfNotPresent
           resources:
             requests:
               cpu: "100m"

@@ -16,7 +16,7 @@ spec:
       containers: 
         - name: frontend-container
           image: ashasankaran/cloud-native-frontend:v1
-          imagePullPolicy: ifNotPresent
+          imagePullPolicy: IfNotPresent
           resources:
             requests:
               cpu: "50m"
