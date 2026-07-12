@@ -4,6 +4,8 @@ on:
     branches:
       - main
   workflow_dispatch: 
+env:
+  IMAGE_TAG: ${{github.run_number}}
 jobs:
   build-and-deploy: 
     runs-on: ubuntu-latest
@@ -19,11 +21,11 @@ jobs:
       - name: Check Docker Version
         run: docker --version 
       - name: Build Backend Docker Image
-        run: docker build -t ashasankaran/cloud-native-backend:v1 ./backend
+        run: docker build -t ashasankaran/cloud-native-backend:$IMAGE_TAG ./backend
       - name: Verify Backend Docker Image
         run: docker images 
       - name: Build Frontend Docker Image 
-        run: docker build -t ashasankaran/cloud-native-frontend:v1 ./frontend 
+        run: docker build -t ashasankaran/cloud-native-frontend:$IMAGE_TAG ./frontend 
       - name: Verify Frontend Docker Image
         run: docker images
       - name: Login to Docker Hub 
@@ -32,6 +34,6 @@ jobs:
           username: ${{secrets.DOCKER_USERNAME}}
           password: ${{secrets.DOCKER_TOKEN}}
       - name: Push Backend Image to Docker Hub
-        run: docker push ashasankaran/cloud-native-backend:v1 
+        run: docker push ashasankaran/cloud-native-backend:$IMAGE_TAG 
       - name: Push Frontend Image to Docker Hub
-        run: docker push ashasankaran/cloud-native-frontend:v1
+        run: docker push ashasankaran/cloud-native-frontend:$IMAGE_TAG
