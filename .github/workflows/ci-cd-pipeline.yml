@@ -22,12 +22,6 @@ jobs:
         run: tree -L 2 
       - name: Check Docker Version
         run: docker --version 
-      - name: Build Frontend Docker Image 
-        run: docker build -t ashasankaran/cloud-native-frontend:$IMAGE_TAG ./frontend 
-      - name: Tag Frontend Docker Image
-        run: docker tag ashasankaran/cloud-native-frontend:$IMAGE_TAG ashasankaran/cloud-native-frontend:latest
-      - name: Verify Frontend Docker Image
-        run: docker images
       - name: Login to Docker Hub 
         uses: docker/login-action@v3 
         with:
@@ -41,7 +35,13 @@ jobs:
           tags: |
             ashasankaran/cloud-native-backend:${{env.IMAGE_TAG}}
             ashasankaran/cloud-native-backend:latest
-      - name: Push Frontend Image to Docker Hub
-        run: docker push ashasankaran/cloud-native-frontend:$IMAGE_TAG
-      - name: Push Frontend Latest Image 
-        run: docker push ashasankaran/cloud-native-frontend:latest
+      - name: Build and Push Frontend Image
+        uses: docker/build-push-action@v6 
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ashasankaran/cloud-native-frontend:${{env.IMAGE_TAG}}
+            ashasankaran/cloud-native-frontend:latest
+      - name: Verify Docker Images
+        run: docker images
