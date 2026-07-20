@@ -1,0 +1,31 @@
+name: Cloud Native CI/CD Pipeline
+on:
+  push: 
+    branches:
+      - main
+  workflow_dispatch: 
+env:
+  IMAGE_TAG: ${{github.run_number}}
+jobs:
+  build-and-push: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3 
+      - name: Build Backend Image
+        run: |
+          docker build \
+            -t cloud-native-backend:${{ env.IMAGE_TAG }} \
+            ./backend
+      - name: Build Frontend Image
+        run: |
+          docker build \
+            -t cloud-native-frontend:${{ env.IMAGE_TAG }} \
+            ./frontend
+      - name: Build PostgreSQL Image
+        run: |
+          docker build \
+            -t cloud-native-postgres:${{ env.IMAGE_TAG }} \
+            ./database

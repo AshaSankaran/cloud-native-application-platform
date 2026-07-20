@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: cloud-native-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend-container
+          image: ashasankaran/cloud-native-backend:v1
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          ports:
+            - containerPort: 5000
+          envFrom: 
+            - configMapRef:
+                name: backend-configmap 
+            - secretRef:
+                name: backend-secret 
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            failureThreshold: 20
+            periodSeconds: 5
+          readinessProbe: 
+            httpGet:
+              path: /ready 
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health 
+              port: 5000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          
+
+              

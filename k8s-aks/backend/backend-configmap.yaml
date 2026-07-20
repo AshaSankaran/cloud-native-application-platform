@@ -1,0 +1,9 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata: 
+  name: backend-configmap 
+  namespace: cloud-native-app
+data: 
+  DB_HOST: postgres-service
+  DB_NAME: platformdb 
+  APP_VERSION: "1.0"
