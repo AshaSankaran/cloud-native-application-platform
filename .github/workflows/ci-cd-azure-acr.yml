@@ -29,3 +29,11 @@ jobs:
           docker build \
             -t cloud-native-postgres:${{ env.IMAGE_TAG }} \
             ./database
+      - name: Scan Backend Image with Trivy
+        uses: aquasecurity/trivy-action@0.28.0
+        with: 
+          image-ref: cloud-native-backend:${{ env.IMAGE_TAG }}
+          format: table
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
