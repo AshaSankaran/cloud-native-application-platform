@@ -33,7 +33,14 @@ jobs:
         uses: aquasecurity/trivy-action@v0.36.0
         with: 
           image-ref: cloud-native-backend:${{ env.IMAGE_TAG }}
-          format: table
-          exit-code: '1'
-          ignore-unfixed: true
+          format: sarif
+          output: trivy-backend.sarif
           severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: '1'
+      - name: Upload Backend Trivy Report 
+        uses: actions/upload-artifact@v4 
+        with:
+          name: trivy-backend-Report 
+          path: trivy-backend.sarif
+
