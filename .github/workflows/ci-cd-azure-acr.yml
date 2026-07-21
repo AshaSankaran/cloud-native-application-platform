@@ -30,7 +30,7 @@ jobs:
             -t cloud-native-postgres:${{ env.IMAGE_TAG }} \
             ./database
       - name: Scan Backend Image with Trivy
-        uses: aquasecurity/trivy-action@0.72.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with: 
           image-ref: cloud-native-backend:${{ env.IMAGE_TAG }}
           format: table
