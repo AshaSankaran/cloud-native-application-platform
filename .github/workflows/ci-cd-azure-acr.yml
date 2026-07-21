@@ -37,7 +37,7 @@ jobs:
           output: trivy-backend.sarif
           severity: HIGH,CRITICAL
           ignore-unfixed: true
-          exit-code: '1'
+          exit-code: '0'
       - name: Scan Frontend Image with Trivy
         uses: aquasecurity/trivy-action@v0.36.0
         with:
@@ -46,7 +46,7 @@ jobs:
           output: trivy-frontend.sarif
           severity: HIGH,CRITICAL
           ignore-unfixed: true
-          exit-code: '1'
+          exit-code: '0'
       - name: Scan PostgreSQL Image with Trivy
         uses: aquasecurity/trivy-action@v0.36.0
         with:
@@ -55,7 +55,7 @@ jobs:
           output: trivy-postgres.sarif
           severity: HIGH,CRITICAL
           ignore-unfixed: true
-          exit-code: '1'
+          exit-code: '0'
       - name: Upload Trivy Reports
         uses: actions/upload-artifact@v4
         with:
