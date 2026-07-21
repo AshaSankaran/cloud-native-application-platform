@@ -38,9 +38,29 @@ jobs:
           severity: HIGH,CRITICAL
           ignore-unfixed: true
           exit-code: '1'
-      - name: Upload Backend Trivy Report 
-        uses: actions/upload-artifact@v4 
+      - name: Scan Frontend Image with Trivy
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
-          name: trivy-backend-Report 
-          path: trivy-backend.sarif
-
+          image-ref: cloud-native-frontend:${{ env.IMAGE_TAG }}
+          format: sarif
+          output: trivy-frontend.sarif
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: '1'
+      - name: Scan PostgreSQL Image with Trivy
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: cloud-native-postgres:${{ env.IMAGE_TAG }}
+          format: sarif
+          output: trivy-postgres.sarif
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: '1'
+      - name: Upload Trivy Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-security-reports
+          path: |
+            trivy-backend.sarif
+            trivy-frontend.sarif
+            trivy-postgres.sarif
