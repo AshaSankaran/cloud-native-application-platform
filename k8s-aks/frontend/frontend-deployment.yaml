@@ -15,8 +15,30 @@ spec:
     spec: 
       containers: 
         - name: frontend-container
-          image: ashasankaran/cloud-native-frontend:v1
-          imagePullPolicy: IfNotPresent
+          image: acrcloudnative.azurecr.io/cloud-native-frontend:IMAGE_TAG
+          imagePullPolicy: Always
+          startupProbe:
+            httpGet:
+              path: /
+              port: 80
+            failureThreshold: 20 
+            periodSeconds: 5 
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80 
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80 
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
           resources:
             requests:
               cpu: "50m"

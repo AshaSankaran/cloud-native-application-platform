@@ -9,8 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules: 
-    - host: cloudnative.local 
-      http: 
+    - http: 
         paths:
           - path: /
             pathType: Prefix 

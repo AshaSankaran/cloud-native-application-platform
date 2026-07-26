@@ -150,18 +150,33 @@ jobs:
             ${{ vars.BACKEND_IMAGE }}:${{ env.IMAGE_TAG }} \
             ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.BACKEND_IMAGE }}:${{ env.IMAGE_TAG }}
 
+          docker tag \ 
+            ${{ vars.BACKEND_IMAGE }}:${{ env.IMAGE_TAG }} \
+            ${{ vars. ACR_LOGIN_SERVER }}/${{ vars.BACKEND_IMAGE }}:latest
+
           docker tag \
             ${{ vars.FRONTEND_IMAGE }}:${{ env.IMAGE_TAG }} \
             ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.FRONTEND_IMAGE }}:${{ env.IMAGE_TAG }}
 
+          docker tag \ 
+            ${{ vars.FRONTEND_IMAGE }}:${{ env.IMAGE_TAG }} \
+            ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.FRONTEND_IMAGE }}:latest
+
           docker tag \
             ${{ vars.DATABASE_IMAGE }}:${{ env.IMAGE_TAG }} \
-            ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.DATABASE_IMAGE }}:${{ env.IMAGE_TAG  }}
+            ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.DATABASE_IMAGE }}:${{ env.IMAGE_TAG }}
+
+          docker tag \
+            ${{ vars.DATABASE_IMAGE }}:${{ env.IMAGE_TAG }} \
+            ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.DATABASE_IMAGE }}:latest
 
       - name: Push Docker Images to ACR 
         run: |
           docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.BACKEND_IMAGE }}:${{ env.IMAGE_TAG }}
-          
+          docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.BACKEND_IMAGE}}:latest
+
           docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.FRONTEND_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.FRONTEND_IMAGE }}: latest
 
           docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.DATABASE_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.DATABASE_IMAGE }}: latest 

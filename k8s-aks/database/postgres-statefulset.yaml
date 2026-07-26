@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: postgres-container
-          image: ashasankaran/cloud-native-postgres:v1
-          imagePullPolicy: IfNotPresent
+          image: acrcloudnative.azurecr.io/cloud-native-postgres:IMAGE_TAG
+          imagePullPolicy: Always 
           resources:
             requests:
               cpu: "250m"
@@ -30,6 +30,30 @@ spec:
           envFrom: 
             - secretRef:
                 name: postgres-secret 
+          startupProbe:
+            exec:
+              command:
+                - sh 
+                - -c 
+                - pg_isready -U "$POSTGRES_USER"
+            failureThreshold: 30
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command:
+                - sh 
+                - -c 
+                - pg_isready -U "$POSTGRES_USER"
+            initialDelaySeconds: 30 
+            periodSeconds: 10 
+          readinessProbe:
+            exec:
+              command:
+                - sh 
+                - -c 
+                - pg_isready -U "$POSTGRES_USER"
+            initialDelaySeconds: 5
+            periodSeconds: 5
           volumeMounts:
             - name: postgres-storage 
               mountPath: /var/lib/postgresql/data 
@@ -37,6 +61,7 @@ spec:
     - metadata:
         name: postgres-storage
       spec:
+        storageClassName: default 
         accessModes:
           - ReadWriteOnce
         resources:

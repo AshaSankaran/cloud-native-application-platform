@@ -4,6 +4,7 @@ metadata:
   name: postgres-service
   namespace: cloud-native-app  
 spec:
+  clusterIP: None
   selector:
     app: postgres
   ports:

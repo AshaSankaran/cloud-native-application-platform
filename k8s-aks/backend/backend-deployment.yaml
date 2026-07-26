@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: backend-container
-          image: ashasankaran/cloud-native-backend:v1
-          imagePullPolicy: IfNotPresent
+          image: acrcloudnative.azurecr.io/cloud-native-backend:IMAGE_TAG
+          imagePullPolicy: Always 
           resources:
             requests:
               cpu: "100m"
