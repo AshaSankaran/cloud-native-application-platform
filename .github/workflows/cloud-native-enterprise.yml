@@ -176,7 +176,7 @@ jobs:
           docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.BACKEND_IMAGE}}:latest
 
           docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.FRONTEND_IMAGE }}:${{ env.IMAGE_TAG }}
-          docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.FRONTEND_IMAGE }}: latest
+          docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.FRONTEND_IMAGE }}:latest
 
           docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.DATABASE_IMAGE }}:${{ env.IMAGE_TAG }}
-          docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.DATABASE_IMAGE }}: latest 
+          docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.DATABASE_IMAGE }}:latest 
