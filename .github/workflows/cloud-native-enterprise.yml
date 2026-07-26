@@ -1,8 +1,5 @@
 name: Cloud Native Enterprise Pipeline
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch: 
 env: 
   IMAGE_TAG: ${{ github.run_number }}
@@ -120,18 +117,12 @@ jobs:
         uses: actions/download-artifact@v4 
         with: 
           name: docker-images-cloud-native-app 
-       
-      - name: Verify Downloaded Files
-        run: ls -lh 
 
       - name: Load Docker Images 
         run: |
           docker load -i backend.tar 
           docker load -i frontend.tar 
           docker load -i postgres.tar 
-        
-      - name: Verify Images 
-        run: docker images 
 
       - name: Azure Login 
         uses: azure/login@v2 
@@ -180,3 +171,34 @@ jobs:
 
           docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.DATABASE_IMAGE }}:${{ env.IMAGE_TAG }}
           docker push ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.DATABASE_IMAGE }}:latest 
+   
+  deploy-to-aks: 
+    needs: push-images 
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout Repository
+        uses: actions/checkout@v4 
+
+      - name: Azure Login
+        uses: azure/login@v2 
+        with: 
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Install Kubectl 
+        uses: azure/setup-kubectl@v4 
+
+      - name: Replace IMAGE_TAG 
+        run: |
+          find k8s-aks -type f -name "*.yaml" \
+          -exec sed -i "s/IMAGE_TAG/${{ env.IMAGE_TAG }}/g" {} +
+
+      - name: Verify Image Replacement 
+        run: | 
+          grep -R "image:" k8s-aks 
+
+  verify-deployment: 
+    needs: deploy-to-aks
+    runs-on: ubuntu-latest 
+    steps: 
+      - name: Deployment Completed 
+        run: echo "Deployment verification will run after AKS is created."
