@@ -57,3 +57,25 @@ jobs:
             backend.tar 
             frontend.tar
             postgres.tar 
+
+  security-scan: 
+    needs: build-images 
+    runs-on: ubuntu-latest 
+    steps: 
+      - name: Download Docker Images from Artifacts 
+        uses: actions/download-artifact@v4 
+        with: 
+          name: docker-images-cloud-native-app  
+      
+      - name: Verify Downloaded Files 
+        run: ls -lh 
+
+      - name: Load Docker Images 
+        run: |
+          docker load -i backend.tar 
+          docker load -i frontend.tar 
+          docker load -i postgres.tar 
+
+      - name: List Docker Images 
+        run: docker images 
+        
