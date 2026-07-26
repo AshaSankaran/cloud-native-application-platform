@@ -150,15 +150,15 @@ jobs:
             ${{ vars.BACKEND_IMAGE }}:${{ env.IMAGE_TAG }} \
             ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.BACKEND_IMAGE }}:${{ env.IMAGE_TAG }}
 
-          docker tag \ 
+          docker tag \
             ${{ vars.BACKEND_IMAGE }}:${{ env.IMAGE_TAG }} \
-            ${{ vars. ACR_LOGIN_SERVER }}/${{ vars.BACKEND_IMAGE }}:latest
+            ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.BACKEND_IMAGE }}:latest
 
           docker tag \
             ${{ vars.FRONTEND_IMAGE }}:${{ env.IMAGE_TAG }} \
             ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.FRONTEND_IMAGE }}:${{ env.IMAGE_TAG }}
 
-          docker tag \ 
+          docker tag \
             ${{ vars.FRONTEND_IMAGE }}:${{ env.IMAGE_TAG }} \
             ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.FRONTEND_IMAGE }}:latest
 
