@@ -66,9 +66,6 @@ jobs:
         uses: actions/download-artifact@v4 
         with: 
           name: docker-images-cloud-native-app  
-      
-      - name: Verify Downloaded Files 
-        run: ls -lh 
 
       - name: Load Docker Images 
         run: |
@@ -76,6 +73,42 @@ jobs:
           docker load -i frontend.tar 
           docker load -i postgres.tar 
 
-      - name: List Docker Images 
-        run: docker images 
-        
+      - name: Scan Backend Image with Trivy 
+        uses: aquasecurity/trivy-action@v0.36.0 
+        with: 
+          image-ref: ${{ vars.BACKEND_IMAGE }}:${{ env.IMAGE_TAG }}
+          format: sarif 
+          output: trivy-backend.sarif 
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true 
+          exit-code: '0'
+
+      - name: Scan Frontend Image with Trivy 
+        uses: aquasecurity/trivy-action@v0.36.0 
+        with: 
+          image-ref: ${{ vars.FRONTEND_IMAGE }}:${{ env.IMAGE_TAG }}
+          format: sarif
+          output: trivy-frontend.sarif 
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true 
+          exit-code: '0'
+
+      - name: Scan PostgreSQL Image with Trivy
+        uses: aquasecurity/trivy-action@v0.36.0 
+        with: 
+          image-ref: ${{ vars.DATABASE_IMAGE }}:${{ env.IMAGE_TAG }}
+          format: sarif
+          output: trivy-postgres.sarif
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true 
+          exit-code: '0'
+
+      - name: Upload Trivy Artifacts 
+        if: always()
+        uses: actions/upload-artifact@v4 
+        with: 
+          name: trivy-security-reports-cloud-native-app 
+          path: | 
+            trivy-backend.sarif 
+            trivy-frontend.sarif 
+            trivy-postgres.sarif 
