@@ -73,7 +73,7 @@ jobs:
             ${{ vars.FRONTEND_IMAGE }}:${{ env.IMAGE_TAG }} \
             ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.FRONTEND_IMAGE }}:${{ env.IMAGE_TAG }}
           docker tag \
-            ${{ vars.DATABASE_NAME }}:${{ env.IMAGE_TAG }} \
+            ${{ vars.DATABASE_IMAGE }}:${{ env.IMAGE_TAG }} \
             ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.DATABASE_IMAGE }}:${{ env.IMAGE_TAG }}
       - name: Push Docker Images
         run: |
