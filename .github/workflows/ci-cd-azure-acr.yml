@@ -1,8 +1,5 @@
 name: Cloud Native CI/CD Pipeline
 on:
-  push: 
-    branches:
-      - main
   workflow_dispatch: 
 env:
   IMAGE_TAG: ${{github.run_number}}

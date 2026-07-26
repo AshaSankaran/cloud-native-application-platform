@@ -1,0 +1,59 @@
+name: Cloud Native Enterprise Pipeline
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: 
+env: 
+  IMAGE_TAG: ${{ github.run_number }}
+
+jobs: 
+  build-images: 
+    runs-on: ubuntu-latest 
+    steps:
+      - name: Checkout Repository 
+        uses: actions/checkout@v4 
+
+      - name: Set up Docker Buildx 
+        uses: docker/setup-buildx-action@v3 
+
+      - name : Build Backend Image 
+        run: | 
+          docker build \
+            -t ${{ vars.BACKEND_IMAGE }}:${{ env.IMAGE_TAG }} \
+            ./backend 
+          
+      - name: Build Frontend Image
+        run: | 
+          docker build \
+            -t ${{ vars.FRONTEND_IMAGE }}:${{ env.IMAGE_TAG }} \
+            ./frontend 
+
+      - name: Build PostgreSQL Image 
+        run: | 
+          docker build \
+            -t ${{ vars.DATABASE_IMAGE }}:${{ env.IMAGE_TAG }} \
+            ./database  
+
+      - name: Save Docker Images 
+        run: |
+          docker save \
+            -o backend.tar \
+            ${{ vars.BACKEND_IMAGE }}:${{ env.IMAGE_TAG }}
+
+          docker save \
+            -o frontend.tar \
+            ${{ vars.FRONTEND_IMAGE }}:${{ env.IMAGE_TAG }}
+
+          docker save \
+            -o postgres.tar \
+            ${{ vars.DATABASE_IMAGE }}:${{ env.IMAGE_TAG }}
+
+      - name: Upload Docker Images 
+        uses: actions/upload-artifact@v4 
+        with: 
+          name: docker-images-cloud-native-app 
+          path: | 
+            backend.tar 
+            frontend.tar
+            postgres.tar 
