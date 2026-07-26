@@ -18,6 +18,8 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Verify Azure Login
         run: az account show
+      - name: Login to Azure Container Registry
+        run: az acr login --name ${{ vars.ACR_NAME }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3 
       - name: Build Backend Image
