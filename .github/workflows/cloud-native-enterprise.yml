@@ -220,31 +220,23 @@ jobs:
         run: |
           kubectl rollout status deployment/ingress-nginx-controller \
             -n ingress-nginx \
-            --timeout=300s
+            --timeout=180s
 
       - name: Deploy Application 
         run: |
           kubectl apply -R -f k8s-aks/namespace/
 
-          kubectl apply -R -f k8s-aks/database/
-
-          kubectl apply -R -f k8s-aks/backend/
-
-          kubectl apply -R -f k8s-aks/frontend/
-
-          kubectl apply -R -f k8s-aks/ingress/
-
-          kubectl apply -R -f k8s-aks/autoscaling/
+          kubectl apply -R -f k8s-aks/
 
       - name: Wait for PostgreSQL 
         run: |
-          kubectl rollout status statefulset/postgres-statefulset -n cloud-native-app --timeout=300s
+          kubectl rollout status statefulset/postgres-statefulset -n cloud-native-app --timeout=180s
 
       - name: Wait for Deployments
         run: |
-          kubectl rollout status deployment/backend-deployment -n cloud-native-app --timeout=300s
+          kubectl rollout status deployment/backend-deployment -n cloud-native-app --timeout=180s
 
-          kubectl rollout status deployment/frontend-deployment -n cloud-native-app --timeout=300s
+          kubectl rollout status deployment/frontend-deployment -n cloud-native-app --timeout=180s
 
       - name: Wait for Pods Ready
         run: |
@@ -253,7 +245,7 @@ jobs:
             pod \
             --all \
             -n cloud-native-app \
-            --timeout=300s
+            --timeout=180s
 
   verify-deployment: 
     needs: deploy-to-aks
@@ -286,4 +278,6 @@ jobs:
 
           kubectl get hpa -o wide -n cloud-native-app
 
-          kubectl get pvc -o wide -n cloud-native-app 
+          kubectl get pvc -o wide -n cloud-native-app
+
+          kubectl get events -n cloud-native-app --sort-by=.lastTimestamp
