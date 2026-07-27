@@ -234,7 +234,7 @@ jobs:
 
           kubectl apply -R -f k8s-aks/ingress/
 
-          kubectl apply -R -f k8s-aks/hpa/
+          kubectl apply -R -f k8s-aks/autoscaling/
 
       - name: Wait for PostgreSQL 
         run: |
