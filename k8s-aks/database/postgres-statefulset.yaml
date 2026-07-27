@@ -17,6 +17,9 @@ spec:
       containers:
         - name: postgres-container
           image: acrcloudnative.azurecr.io/cloud-native-postgres:IMAGE_TAG
+          env:
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
           imagePullPolicy: Always 
           resources:
             requests:
