@@ -1,5 +1,8 @@
 name: Cloud Native Enterprise Pipeline
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch: 
 env: 
   IMAGE_TAG: ${{ github.run_number }}
@@ -196,9 +199,91 @@ jobs:
         run: | 
           grep -R "image:" k8s-aks 
 
+      - name: Get AKS Credentials 
+        run: |
+          az aks get-credentials \
+            --resource-group rg-cloud-native \
+            --name aks-cloud-native \
+            --overwrite-existing
+
+      - name: Verify Cluster Connection
+        run: |
+          kubectl cluster-info 
+          kubectl get nodes -o wide 
+          kubectl config current-context 
+
+      - name: Install NGINX Ingress Controller 
+        run: |
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.2/deploy/static/provider/cloud/deploy.yaml
+
+      - name: Wait for NGINX Ingress Controller
+        run: |
+          kubectl rollout status deployment/ingress-nginx-controller \
+            -n ingress-nginx \
+            --timeout=300s
+
+      - name: Deploy Application 
+        run: |
+          kubectl apply -R -f k8s-aks/namespace/
+
+          kubectl apply -R -f k8s-aks/database/
+
+          kubectl apply -R -f k8s-aks/backend/
+
+          kubectl apply -R -f k8s-aks/frontend/
+
+          kubectl apply -R -f k8s-aks/ingress/
+
+          kubectl apply -R -f k8s-aks/hpa/
+
+      - name: Wait for PostgreSQL 
+        run: |
+          kubectl rollout status statefulset/postgres-statefulset -n cloud-native-app --timeout=300s
+
+      - name: Wait for Deployments
+        run: |
+          kubectl rollout status deployment/backend-deployment -n cloud-native-app --timeout=300s
+
+          kubectl rollout status deployment/frontend-deployment -n cloud-native-app --timeout=300s
+
+      - name: Wait for Pods Ready
+        run: |
+          kubectl wait \
+            --for=condition=Ready \
+            pod \
+            --all \
+            -n cloud-native-app \
+            --timeout=300s
+
   verify-deployment: 
     needs: deploy-to-aks
     runs-on: ubuntu-latest 
     steps: 
-      - name: Deployment Completed 
-        run: echo "Deployment verification will run after AKS is created."
+      - name: Azure Login 
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+      - name: Install kubectl 
+        uses: azure/setup-kubectl@v4 
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group rg-cloud-native \
+            --name aks-cloud-native \
+            --overwrite-existing
+
+      - name: Verify Deployment
+        run: |
+          kubectl get nodes -o wide
+
+          kubectl get pods -o wide -n cloud-native-app
+
+          kubectl get svc -o wide -n cloud-native-app
+
+          kubectl get ingress -o wide -n cloud-native-app 
+
+          kubectl get hpa -o wide -n cloud-native-app
+
+          kubectl get pvc -o wide -n cloud-native-app 
