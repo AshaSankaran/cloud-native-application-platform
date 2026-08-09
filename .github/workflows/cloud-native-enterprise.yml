@@ -1,11 +1,12 @@
 name: Cloud Native Enterprise Pipeline
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch: 
 env: 
   IMAGE_TAG: ${{ github.run_number }}
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs: 
   build-images: 
@@ -129,8 +130,10 @@ jobs:
 
       - name: Azure Login 
         uses: azure/login@v2 
-        with: 
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Verify Azure Login
         run: az account show 
@@ -184,8 +187,10 @@ jobs:
 
       - name: Azure Login
         uses: azure/login@v2 
-        with: 
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Install Kubectl 
         uses: azure/setup-kubectl@v4 
@@ -254,7 +259,9 @@ jobs:
       - name: Azure Login 
         uses: azure/login@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         
       - name: Install kubectl 
         uses: azure/setup-kubectl@v4 

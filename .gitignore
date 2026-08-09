@@ -24,3 +24,17 @@ venv/
 
 # Temporary files
 *.tmp
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfplan.json
+
+# Terraform variable files containing potentially sensitive values
+# Uncomment if sensitive values are added later:
+# *.tfvars
+
+# OIDC / identity bootstrap configuration
+federated-credential.json
