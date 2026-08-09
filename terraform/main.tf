@@ -41,7 +41,7 @@ module "azure_kubernetes_cluster" {
 module "role_assignment" {
   source = "./modules/rbac"
 
-  principal_id         = module.azure_kubernetes_cluster.principal_id
+  principal_id         = module.azure_kubernetes_cluster.kubelet_identity_object_id
   acr_id               = module.azure_container_registry.acr_id
   role_definition_name = var.role_definition_name
 }

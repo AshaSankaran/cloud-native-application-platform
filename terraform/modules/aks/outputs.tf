@@ -24,12 +24,12 @@ output "aks_fqdn" {
   value       = azurerm_kubernetes_cluster.aks.fqdn
 }
 
-output "kubelet_identity_object_id" {
-  description = "AKS Kubelet Identity Object ID"
-  value       = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
-}
-
 output "principal_id" {
   description = "AKS System Assigned Identity Principal ID"
   value       = azurerm_kubernetes_cluster.aks.identity[0].principal_id
+}
+
+output "kubelet_identity_object_id" {
+  description = "AKS Kubelet Identity Object ID"
+  value       = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
 }
