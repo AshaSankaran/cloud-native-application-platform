@@ -1,5 +1,8 @@
 name: Cloud Native Enterprise Pipeline
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch: 
 env: 
   IMAGE_TAG: ${{ github.run_number }}
@@ -44,8 +47,36 @@ jobs:
         working-directory: terraform
         run: terraform plan
 
+  terraform-apply:
+    needs: terraform-plan
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
+
+      - name: Terraform Apply
+        working-directory: terraform
+        run: terraform apply -auto-approve
+  
   build-images:
-    needs: terraform-plan 
+    needs: terraform-apply
     runs-on: ubuntu-latest 
     steps:
       - name: Checkout Repository 
