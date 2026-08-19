@@ -21,6 +21,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
         type = "SystemAssigned"
     }
 
+    oms_agent {
+        log_analytics_workspace_id = var.log_analytics_workspace_id
+    }
+
     network_profile {
         network_plugin      = "azure"
         network_plugin_mode = "overlay"
@@ -28,4 +32,5 @@ resource "azurerm_kubernetes_cluster" "aks" {
     }
 
     role_based_access_control_enabled = true
+
 }

@@ -69,3 +69,38 @@ variable "role_definition_name" {
   description = "Azure RBAC role to assign"
   type        = string
 }
+
+variable "workspace_name" {
+  description = "Log Analytics Workspace Name"
+  type        = string
+}
+
+variable "workspace_sku" {
+  description = "Log Analytics Workspace SKU"
+  type        = string
+}
+
+variable "workspace_retentiondays" {
+  description = "Log Analytics Workspace Retention Days"
+  type        = number
+}
+
+variable "diagnostic_setting_name" {
+  description = "Monitoring Diagnostic Setting Name"
+  type        = string
+}
+
+variable "action_group_name" {
+  description = "Monitoring Action Group Name"
+  type        = string
+}
+
+variable "ag_short_name" {
+  description = "Monitoring Action Group Short Name"
+  type        = string
+}
+
+variable "alert_email" {
+  description = "Monitoring Alert Email Address"
+  type        = string
+}

@@ -21,3 +21,12 @@ node_count = 1
 vm_size    = "Standard_B2s_v2"
 
 role_definition_name = "AcrPull"
+
+workspace_name          = "log-cloud-native"
+workspace_sku           = "PerGB2018"
+workspace_retentiondays = 30
+
+diagnostic_setting_name = "diag-aks-cloud-native"
+action_group_name       = "ag-cloud-native-monitoring"
+ag_short_name           = "cloud-native"
+alert_email             = "ashasankaran11@gmail.com"

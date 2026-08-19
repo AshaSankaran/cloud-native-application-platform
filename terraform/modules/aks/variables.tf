@@ -32,3 +32,8 @@ variable "location" {
     description = "Azure Region"
     type = string
 }
+
+variable "log_analytics_workspace_id" {
+    description = "Log Analytics Workspace ID used by AKS monitoring"
+    type = string
+}
