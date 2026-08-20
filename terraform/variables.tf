@@ -104,3 +104,13 @@ variable "alert_email" {
   description = "Monitoring Alert Email Address"
   type        = string
 }
+
+variable "cpu_metric_alert_name" {
+  description = "AKS CPU Metrics Alert Name"
+  type        = string
+}
+
+variable "memory_metric_alert_name" {
+  description = "AKS Memory Metrics Alert Name"
+  type        = string
+}

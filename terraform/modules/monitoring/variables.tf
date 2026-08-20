@@ -18,6 +18,16 @@ variable "alert_email" {
     type = string
 }
 
+variable "cpu_metric_alert_name" {
+    description = "AKS CPU Metrics Alert Name"
+    type = string
+}
+
+variable "memory_metric_alert_name" {
+    description = "AKS Memory Metrics Alert Name"
+    type = string
+}
+
 variable "log_analytics_workspace_id" {
     description = "Log Analytics workspace resource ID"
     type = string

@@ -26,7 +26,9 @@ workspace_name          = "log-cloud-native"
 workspace_sku           = "PerGB2018"
 workspace_retentiondays = 30
 
-diagnostic_setting_name = "diag-aks-cloud-native"
-action_group_name       = "ag-cloud-native-monitoring"
-ag_short_name           = "cloud-native"
-alert_email             = "ashasankaran11@gmail.com"
+diagnostic_setting_name  = "diag-aks-cloud-native"
+action_group_name        = "ag-cloud-native-monitoring"
+ag_short_name            = "cloud-native"
+alert_email              = "ashasankaran11@gmail.com"
+cpu_metric_alert_name    = "aks-metric-alert-high-cpu"
+memory_metric_alert_name = "aks-metric-alert-high-memory"
