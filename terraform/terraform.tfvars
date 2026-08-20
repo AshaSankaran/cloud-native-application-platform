@@ -17,7 +17,7 @@ admin_enabled = false
 
 aks_name   = "aks-cloud-native"
 dns_prefix = "aks-cloud-native"
-node_count = 1
+node_count = 2
 vm_size    = "Standard_B2s_v2"
 
 role_definition_name = "AcrPull"
