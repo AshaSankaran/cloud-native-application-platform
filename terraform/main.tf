@@ -61,4 +61,5 @@ module "monitoring" {
   ag_short_name              = var.ag_short_name
   cpu_metric_alert_name      = var.cpu_metric_alert_name
   memory_metric_alert_name   = var.memory_metric_alert_name
+  pod_restart_alert_name     = var.pod_restart_alert_name
 }

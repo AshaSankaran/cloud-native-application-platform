@@ -28,6 +28,11 @@ variable "memory_metric_alert_name" {
     type = string
 }
 
+variable "pod_restart_alert_name" {
+    description = "AKS Application Pod Restart Alert"
+    type = string
+}
+
 variable "log_analytics_workspace_id" {
     description = "Log Analytics workspace resource ID"
     type = string

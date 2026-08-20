@@ -114,3 +114,8 @@ variable "memory_metric_alert_name" {
   description = "AKS Memory Metrics Alert Name"
   type        = string
 }
+
+variable "pod_restart_alert_name" {
+  description = "AKS Application Pod Restart Alert"
+  type        = string
+}
