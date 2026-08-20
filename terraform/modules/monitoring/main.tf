@@ -95,7 +95,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "pod_restarts" {
 
     criteria {
         query = <<-QUERY
-          kubePodInventory
+          KubePodInventory
           | where TimeGenerated >= ago(10m)
           | where Namespace == "cloud-native-app"
           | where ContainerRestartCount > 2
