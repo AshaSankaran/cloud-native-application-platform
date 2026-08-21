@@ -33,3 +33,5 @@ alert_email              = "ashasankaran11@gmail.com"
 cpu_metric_alert_name    = "aks-metric-alert-high-cpu"
 memory_metric_alert_name = "aks-metric-alert-high-memory"
 pod_restart_alert_name   = "aks-cloud-native-pod-restarts"
+
+key_vault_name = "keyvault-cloud-native"

@@ -119,3 +119,8 @@ variable "pod_restart_alert_name" {
   description = "AKS Application Pod Restart Alert"
   type        = string
 }
+
+variable "key_vault_name" {
+  description = "Azure Key Vault Name"
+  type        = string
+}

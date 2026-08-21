@@ -63,3 +63,12 @@ module "monitoring" {
   memory_metric_alert_name   = var.memory_metric_alert_name
   pod_restart_alert_name     = var.pod_restart_alert_name
 }
+
+module "key_vault" {
+  source = "./modules/key-vault"
+
+  resource_group_name = module.resource_group.resource_group_name
+  location            = module.resource_group.location
+  key_vault_name      = var.key_vault_name
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+}
