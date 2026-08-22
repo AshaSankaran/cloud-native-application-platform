@@ -6,7 +6,7 @@ resource "azurerm_user_assigned_identity" "backend_identity" {
 
 resource "azurerm_federated_identity_credential" "backend_oidc" {
   name      = var.backend_oidc_name
-  parent_id = azurerm_user_assigned_identity.backend_identity.id
+  user_assigned_identity_id = azurerm_user_assigned_identity.backend_identity.id
 
   audience = [
     "api://AzureADTokenExchange"

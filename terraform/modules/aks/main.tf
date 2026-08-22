@@ -34,6 +34,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
     load_balancer_sku   = "standard"
   }
 
+  key_vault_secrets_provider {
+    secret_rotation_enabled = true
+  }
+
   role_based_access_control_enabled = true
 
 }
