@@ -58,8 +58,19 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 5
           volumeMounts:
-            - name: postgres-storage 
-              mountPath: /var/lib/postgresql/data 
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+
+            - name: secrets-store
+              mountPath: /mnt/secrets-store
+              readOnly: true
+      volumes:
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: cloud-native-keyvault
   volumeClaimTemplates:
     - metadata:
         name: postgres-storage
