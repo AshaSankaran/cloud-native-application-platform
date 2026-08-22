@@ -78,12 +78,32 @@ output "aks_principal_id" {
   value       = module.azure_kubernetes_cluster.principal_id
 }
 
-output "role_definition_name" {
+output "acr_role_definition_name" {
   description = "Assigned Azure RBAC Role"
-  value       = module.role_assignment.role_definition_name
+  value       = module.role_assignment.acr_role_definition_name
 }
 
-output "role_assignment_id" {
+output "acr_role_assignment_id" {
   description = "AKS-ACR Pull Role Assignment ID"
-  value       = module.role_assignment.role_assignment_id
+  value       = module.role_assignment.acr_role_assignment_id
+}
+
+output "backend_role_definition_name" {
+  description = "Backend-Keyvault Role Name"
+  value       = module.role_assignment.backend_role_definition_name
+}
+
+output "backend_role_assignment_id" {
+  description = "Backend-Keyvault Role Assignment ID"
+  value       = module.role_assignment.backend_role_assignment_id
+}
+
+output "backend_identity_client_id" {
+  description = "Client ID of backend workload identity"
+  value       = module.identity.client_id
+}
+
+output "federated_identity_credential_id" {
+  description = "Federated identity credential ID"
+  value       = module.identity.federated_identity_credential_id
 }

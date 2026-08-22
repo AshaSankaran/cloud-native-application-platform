@@ -33,3 +33,8 @@ output "kubelet_identity_object_id" {
   description = "AKS Kubelet Identity Object ID"
   value       = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
 }
+
+output "oidc_issuer_url" {
+  description = "AKS OIDC issuer URL"
+  value       = azurerm_kubernetes_cluster.aks.oidc_issuer_url
+}

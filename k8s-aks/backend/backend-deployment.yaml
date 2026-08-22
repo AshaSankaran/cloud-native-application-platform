@@ -12,7 +12,9 @@ spec:
     metadata:
       labels:
         app: backend
+        azure.workload.identity/use: "true"
     spec:
+      serviceAccountName: backend-sa
       containers:
         - name: backend-container
           image: acrcloudnative.azurecr.io/cloud-native-backend:IMAGE_TAG

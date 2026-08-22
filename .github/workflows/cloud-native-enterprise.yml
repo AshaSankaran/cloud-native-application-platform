@@ -53,6 +53,10 @@ jobs:
     permissions:
       id-token: write
       contents: read
+
+    outputs:
+      backend_identity_client_id: ${{ steps.terraform-output.outputs.backend_identity_client_id }}
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -74,6 +78,12 @@ jobs:
       - name: Terraform Apply
         working-directory: terraform
         run: terraform apply -auto-approve
+
+      - name: Get Terraform outputs
+        id: terraform-output
+        working-directory: terraform
+        run: |
+          echo "backend_identity_client_id=$(terraform output -raw backend_identity_client_id)" >> "$GITHUB_OUTPUT"
   
   build-images:
     needs: terraform-apply
@@ -181,8 +191,12 @@ jobs:
             trivy-frontend.sarif 
             trivy-postgres.sarif 
   push-images: 
-    needs: security-scan
+    needs: [security-scan, terraform-apply]
     runs-on: ubuntu-latest 
+
+    outputs:
+      backend_identity_client_id: ${{ needs.terraform-apply.outputs.backend_identity_client_id }}
+
     steps: 
       - name: Download Docker Images 
         uses: actions/download-artifact@v4 
@@ -262,14 +276,21 @@ jobs:
       - name: Install Kubectl 
         uses: azure/setup-kubectl@v4 
 
-      - name: Replace IMAGE_TAG 
+      - name: Replace Deployment Values 
         run: |
           find k8s-aks -type f -name "*.yaml" \
           -exec sed -i "s/IMAGE_TAG/${{ env.IMAGE_TAG }}/g" {} +
+      
+          find k8s-aks -type f -name "*.yaml" \
+          -exec sed -i "s/YOUR_BACKEND_IDENTITY_CLIENT_ID/${{ needs.push-images.outputs.backend_identity_client_id }}/g" {} +
 
       - name: Verify Image Replacement 
         run: | 
           grep -R "image:" k8s-aks 
+
+      - name: Verify Workload Identity Configuration
+        run: |
+          grep -R "azure.workload.identity/client-id" k8s-aks
 
       - name: Get AKS Credentials 
         run: |

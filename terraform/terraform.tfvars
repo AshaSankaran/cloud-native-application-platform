@@ -20,7 +20,8 @@ dns_prefix = "aks-cloud-native"
 node_count = 2
 vm_size    = "Standard_B2s_v2"
 
-role_definition_name = "AcrPull"
+acr_role_definition_name     = "AcrPull"
+backend_role_definition_name = "Key Vault Secrets User"
 
 workspace_name          = "log-cloud-native"
 workspace_sku           = "PerGB2018"
@@ -35,3 +36,7 @@ memory_metric_alert_name = "aks-metric-alert-high-memory"
 pod_restart_alert_name   = "aks-cloud-native-pod-restarts"
 
 key_vault_name = "keyvault-cloud-native"
+
+identity_name = "id_backend-cloud-native"
+
+backend_oidc_name = "fic-oidc-backend"

@@ -65,8 +65,13 @@ variable "vm_size" {
   type        = string
 }
 
-variable "role_definition_name" {
+variable "acr_role_definition_name" {
   description = "Azure RBAC role to assign"
+  type        = string
+}
+
+variable "backend_role_definition_name" {
+  description = "Name of backend workload identity"
   type        = string
 }
 
@@ -122,5 +127,15 @@ variable "pod_restart_alert_name" {
 
 variable "key_vault_name" {
   description = "Azure Key Vault Name"
+  type        = string
+}
+
+variable "identity_name" {
+  description = "User-Assigned Managed Identity Name"
+  type        = string
+}
+
+variable "backend_oidc_name" {
+  description = "AKS OIDC Name"
   type        = string
 }

@@ -42,9 +42,13 @@ module "azure_kubernetes_cluster" {
 module "role_assignment" {
   source = "./modules/rbac"
 
-  principal_id         = module.azure_kubernetes_cluster.kubelet_identity_object_id
-  acr_id               = module.azure_container_registry.acr_id
-  role_definition_name = var.role_definition_name
+  acr_principal_id         = module.azure_kubernetes_cluster.kubelet_identity_object_id
+  acr_id                   = module.azure_container_registry.acr_id
+  acr_role_definition_name = var.acr_role_definition_name
+
+  backend_principal_id         = module.identity.principal_id
+  key_vault_id                 = module.key_vault.key_vault_id
+  backend_role_definition_name = var.backend_role_definition_name
 }
 
 module "monitoring" {
@@ -71,4 +75,15 @@ module "key_vault" {
   location            = module.resource_group.location
   key_vault_name      = var.key_vault_name
   tenant_id           = data.azurerm_client_config.current.tenant_id
+}
+
+module "identity" {
+  source = "./modules/identity"
+
+  identity_name       = var.identity_name
+  resource_group_name = module.resource_group.resource_group_name
+  location            = module.resource_group.location
+
+  oidc_issuer_url   = module.azure_kubernetes_cluster.oidc_issuer_url
+  backend_oidc_name = var.backend_oidc_name
 }
